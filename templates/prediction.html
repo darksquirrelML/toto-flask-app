@@ -1,13 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction</title>
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #121212;
+            color: white;
+            text-align: center;
+        }
+        .ball {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            margin: 10px;
+            border-radius: 50%;
+            background-color: #1f77b4;
+            font-size: 18px;
+        }
+        .btn {
+            padding: 10px 20px;
+            margin-top: 20px;
+            border: none;
+            background-color: #444;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
 <h1>Prediction Result</h1>
 
-<p>Predicted Numbers:</p>
-
-<ul>
+<div>
     {% for num in numbers %}
-        <li>{{ num }}</li>
+        <div class="ball">{{ num }}</div>
     {% endfor %}
-</ul>
+</div>
 
 <a href="/">
-    <button>Back</button>
+    <button class="btn">Back</button>
 </a>
+
+</body>
+</html>

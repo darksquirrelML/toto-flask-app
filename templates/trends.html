@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+{% if request.args.get('updated') %}
+    <p style="color: lightgreen;">✅ Data updated successfully!</p>
+{% endif %}
+
+
+<a href="/">
+    <button>Back</button>
+</a>
+
+<head>
+    <title>Trends</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial;
+            text-align: center;
+        }
+        table {
+            margin: auto;
+            border-collapse: collapse;
+            width: 80%;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #444;
+        }
+        th {
+            background-color: #1f77b4;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>TOTO Trends (Latest Draws)</h1>
+
+<table>
+    <tr>
+        <th>Draw No</th>
+        <th>Date</th>
+        <th>Winning No</th>
+        <th>Additional</th>
+    </tr>
+
+    {% for row in tables %}
+    <tr>
+        <td>{{ row.draw_no }}</td>
+        <td>{{ row.draw_date }}</td>
+        
+	<td>
+    		{% for num in row.winning_no.split(',') %}
+        		<span style="
+            			display:inline-block;
+            			width:35px;
+            			height:35px;
+            			line-height:35px;
+            			margin:2px;
+            			border-radius:50%;
+            			background:#1f77b4;
+        			">
+            				{{ num }}
+        		</span>
+    		{% endfor %}
+	</td>
+
+	<td>
+    		<span style="
+        		display:inline-block;
+       			width:35px;
+        		height:35px;
+        		line-height:35px;
+        		border-radius:50%;
+        		background:red;
+    		">
+        		{{ row.additional_no }}
+    		</span>
+	</td>
+        
+    </tr>
+    {% endfor %}
+</table>
+
+<br>
+
+
+</body>
+</html>

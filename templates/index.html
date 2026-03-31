@@ -1,5 +1,134 @@
-<h1>TOTO Prediction Dashboard</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TOTO Dashboard</title>
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #121212;
+            color: white;
+            text-align: center;
+        }
+        h1 {
+            margin-top: 40px;
+        }
+        .btn {
+            padding: 15px 25px;
+            margin: 10px;
+            border: none;
+            background-color: #1f77b4;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #145a86;
+        }
+    </style>
+</head>
 
-<form action="/predict">
-    <button>Predict Next Draw</button>
-</form>
+<body>
+
+<h1>🎰 TOTO Dashboard</h1>
+
+<div>
+
+    <a href="/update"><button class="btn">Update Data</button></a>
+    <form action="/predict" onsubmit="showLoading()">
+    	<button class="btn">Predict</button>
+    </form>
+    <p id="loading" style="display:none;">⏳ Running prediction...</p>
+    <script>
+    function showLoading() {
+    	document.getElementById("loading").style.display = "block";
+    }
+    </script>
+    
+
+    <button class="btn" onclick="startTraining()">Train Model</button>
+
+    <a href="/trends"><button class="btn">Trends</button></a>
+
+    <a href="#"><button class="btn">Hot / Cold (coming soon)</button></a>
+    
+</div>
+
+<div style="width:80%;margin:20px auto;background:#333;border-radius:5px;">
+    <div id="progress-bar"
+         style="width:0%;background:green;height:20px;border-radius:5px;text-align:center;color:white;">
+        0%
+    </div>
+</div>
+
+
+<script>
+let interval;
+
+function startPolling() {
+    interval = setInterval(() => {
+        fetch('/progress')
+        .then(res => res.json())
+        .then(data => {
+            const bar = document.getElementById("progress-bar");
+
+            bar.style.width = data.progress + "%";
+            bar.innerText = data.progress + "%";
+
+	    document.getElementById("train-status").innerText = data.status;
+
+	    document.getElementById("loss").innerText = data.loss;
+            document.getElementById("accuracy").innerText = data.accuracy;
+
+
+            if (data.progress >= 100) {
+                clearInterval(interval);
+            }
+        });
+    }, 1000);
+}
+
+// run when page loads
+startPolling();
+</script>
+
+<p>Loss: <span id="loss"></span></p>
+<p>Accuracy: <span id="accuracy"></span></p>
+
+<p>Last Updated: <span id="last-updated"></span></p>
+
+<script>
+fetch('/last-updated')
+.then(res => res.json())
+.then(data => {
+    document.getElementById("last-updated").innerText = data.last_updated;
+});
+</script>
+
+
+<p id="train-status"></p>
+
+<script>
+function startTraining() {
+
+    // reset progress bar
+    const bar = document.getElementById("progress-bar");
+    bar.style.width = "0%";
+    bar.innerText = "0%";
+
+    // restart polling
+    startPolling();
+
+    fetch('/train')
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("train-status").innerText = data.status;
+    });
+}
+</script>
+
+
+
+</body>
+</html>
+
