@@ -1,9 +1,6 @@
 flask
 pandas
 numpy
-supabase
 tensorflow
-plotly
-reportlab
-beautifulsoup4
-requests
+supabase
+gunicorn
