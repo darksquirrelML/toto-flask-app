@@ -1,5 +1,5 @@
 flask
-tensorflow
-requests
 numpy
+requests
 gunicorn
+tensorflow==2.13.0
