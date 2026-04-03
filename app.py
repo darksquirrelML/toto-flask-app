@@ -12,7 +12,7 @@ from tensorflow.keras.models import load_model
 
 app = Flask(__name__)
 
-MODEL_PATH = "lstm_model.h5"
+MODEL_PATH = "lstm_model.keras"
 
 MODEL_URL = "https://fcibqtbavrltcvzhfgjy.supabase.co/storage/v1/object/public/models/lstm_model.h5"
 
